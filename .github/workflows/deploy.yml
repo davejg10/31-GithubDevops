@@ -3,6 +3,14 @@ run-name: Deploy workflow
 
 on:
   workflow_dispatch:
+    inputs:
+        env:
+          type: choice
+          description: Environment
+          options: 
+          - dev
+          - test
+          - prod
 
 
 jobs:
@@ -18,3 +26,4 @@ jobs:
         with:
           resourceGroupName: ${{ vars.RG_NAME }}
           template: ./InfrastructureAsCode/main.bicep
+          parameters: environment=${{ github.event.inputs.env }}
