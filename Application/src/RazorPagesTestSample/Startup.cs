@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RazorPagesTestSample.Data;
 
+// Some comment
 namespace RazorPagesTestSample
 {
     public class Startup
