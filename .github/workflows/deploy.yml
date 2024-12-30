@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Ship it
-        run: az login --service-principal --username $CLIENT_ID --password $CLIENT_SECRET --tenant $TENANT_ID
+      - name: az login
+        run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
 
       - uses: azure/arm-deploy@v2
         with:
