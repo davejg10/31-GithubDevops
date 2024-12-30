@@ -1,0 +1,20 @@
+name: deploy-workflow
+run-name: Deploy workflow
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ship it
+        run: az login --service-principal --username $CLIENT_ID --password $CLIENT_SECRET --tenant $TENANT_ID
+
+      - uses: azure/arm-deploy@v2
+        with:
+          resourceGroupName: ${{ vars.RG_NAME }}
+          template: ./InfrastructureAsCode/main.bicep
