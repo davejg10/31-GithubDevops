@@ -59,21 +59,10 @@ jobs:
     strategy:
       matrix:
         environment: [dev, test, prod]
+    environment: ${{ matrix.environment }}
     steps:
       - name: az login
         run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
-      
-      - uses: trstringer/manual-approval@v1
-        if: ${{ matrix.environment }} == 'test' || ${{ matrix.environment }} == 'prod'
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: davejg10
-          minimum-approvals: 1
-          issue-title: "Deploying v${{ env.registryName }}/${{ env.repositoryName }}:${{ env.tag }} to ${{ matrix.environment }}"
-          issue-body: "Please approve or deny the deployment."
-          exclude-workflow-initiator-as-approver: false
-          additional-approved-words: ''
-          additional-denied-words: ''
 
       - uses: azure/webapps-deploy@v2
         with:
