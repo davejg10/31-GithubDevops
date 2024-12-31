@@ -10,7 +10,7 @@ var appInsightsName = '${uniqueString(resourceGroup().id)}-wth-ai'
 var sku = 'S1'
 var registryName = '${uniqueString(resourceGroup().id)}wthreg'
 var registrySku = 'Standard'
-var imageName = 'wthimage'
+var imageName = 'wth/dotnetcoreapp'
 var startupCommand = ''
 
 
@@ -54,7 +54,7 @@ resource appServiceApp 'Microsoft.Web/sites@2020-12-01' = {
     httpsOnly: true
     clientAffinityEnabled: false
     siteConfig: {
-      linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${uniqueString(resourceGroup().id)}/${imageName}'
+      linuxFxVersion: 'DOTNET|6.0'
       http20Enabled: true
       minTlsVersion: '1.2'
       appCommandLine: startupCommand
