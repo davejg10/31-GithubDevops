@@ -63,5 +63,5 @@ jobs:
       - uses: azure/webapps-deploy@v2
         with:
           app-name: 'vz2zwcq6pu34o-dev'
-          images: $registryName/$repositoryName:$tag
+          images: ${{ vars.registryName }}/${{ vars.repositoryName }}:${{ vars.tag }}
         
