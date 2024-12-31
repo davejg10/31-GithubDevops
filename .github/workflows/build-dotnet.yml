@@ -12,7 +12,7 @@ on:
       - 'Application/**'
 
 env:
-  registryName: "vz2zwcq6pu34owthreg.azurecr.io"
+  registryName: "5244mbowkkqcu.azurecr.io"
   repositoryName: "wth/dotnetcoreapp"
   dockerFolderPath: "Application/src/RazorPagesTestSample"
   tag: ${{ github.run_number }}
@@ -66,7 +66,7 @@ jobs:
 
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: 'vz2zwcq6pu34o-${{ matrix.environment }}'
+          app-name: '5244mbowkkqcu-${{ matrix.environment }}'
           images: ${{ env.registryName }}/${{ env.repositoryName }}:${{ env.tag }}
 
       
