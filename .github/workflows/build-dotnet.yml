@@ -12,7 +12,7 @@ on:
       - 'Application/**'
 
 env:
-  registryName: "5244mbowkkqcu.azurecr.io"
+  registryName: "5244mbowkkqcuwthreg.azurecr.io"
   repositoryName: "wth/dotnetcoreapp"
   dockerFolderPath: "Application/src/RazorPagesTestSample"
   tag: ${{ github.run_number }}
