@@ -1,5 +1,5 @@
-name: deploy-workflow
-run-name: Deploy workflow
+name: deploy-infra
+run-name: Deploy infra
 
 on:
   workflow_dispatch:
