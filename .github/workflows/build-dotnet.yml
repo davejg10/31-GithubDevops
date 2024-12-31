@@ -40,15 +40,15 @@ jobs:
   dockerize:
     needs: build
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Docker login
-          run: docker login $registryName -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+      - name: Docker login
+        run: docker login $registryName -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
 
-        - name: Docker build
-          run: docker build -t $registryName/$repositoryName:$tag --build-arg build_version=$tag $dockerFolderPath
+      - name: Docker build
+        run: docker build -t $registryName/$repositoryName:$tag --build-arg build_version=$tag $dockerFolderPath
 
-        - name: Docker push
-          run: docker push $registryName/$repositoryName:$tag
-          
+      - name: Docker push
+        run: docker push $registryName/$repositoryName:$tag
+        
