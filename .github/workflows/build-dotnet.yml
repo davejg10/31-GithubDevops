@@ -10,9 +10,14 @@ on:
     paths: 
       - 'Application/**'
 
+env:
+  registryName: "vz2zwcq6pu34owthreg.azurecr.io"
+  repositoryName: "wth/dotnetcoreapp"
+  dockerFolderPath: "Application/src/RazorPagesTestSample"
+  tag: ${{ github.run_number }}
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -31,3 +36,19 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal ./Application/tests/RazorPagesTestSample.Tests/RazorPagesTestSample.Tests.csproj
+
+  dockerize:
+    needs: build
+    runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
+
+          - name: Docker login
+            run: docker login $registryName -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+
+          - name: Docker build
+            run: docker build -t $registryName/$repositoryName:$tag --build-arg build_version=$tag $dockerFolderPath
+
+          - name: Docker push
+            run: docker push $registryName/$repositoryName:$tag
+          
