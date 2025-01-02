@@ -45,13 +45,17 @@ jobs:
           path: ./InfrastructureAsCode/${{ github.run_number }}.tfplan
 
       
-  # terraform_apply:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
+  terraform_apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Terraform init
-  #       run: terraform init -input=false -backend-config="resource_group_name=${{ vars.TERRAFORM_RG_NAME }}" -backend-config="storage_account_name=${{ vars.TERRAFORM_STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=terraform" -backend-config="key=${{ env.applicationName }}-${{ github.event.inputs.env }}"
+      - uses: actions/download-artifact@v4
+        with:
+          name: tfplan
 
-  #     - name: Terraform apply
-  #       run: terraform apply -lock-timeout=300s ${{ github.run_number }}.tfplan
+      - name: Terraform init
+        run: terraform init -input=false -backend-config="resource_group_name=${{ vars.TERRAFORM_RG_NAME }}" -backend-config="storage_account_name=${{ vars.TERRAFORM_STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=terraform" -backend-config="key=${{ env.applicationName }}-${{ github.event.inputs.env }}"
+
+      - name: Terraform apply
+        run: terraform apply -lock-timeout=300s ${{ github.run_number }}.tfplan
