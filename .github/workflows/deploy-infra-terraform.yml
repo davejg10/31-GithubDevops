@@ -11,6 +11,8 @@ on:
           - dev
           - test
           - prod
+env:
+ applicationName: devopsgithub
 
 jobs:
   terraform_plan:
@@ -27,7 +29,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform init
-        run: terraform init -input=false -backend-config="resource_group_name=${{ vars.TERRAFORM_RG_NAME }}" -backend-config="storage_account_name=${{ vars.TERRAFORM_STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=terraform" 
+        run: terraform init -input=false -backend-config="resource_group_name=${{ vars.TERRAFORM_RG_NAME }}" -backend-config="storage_account_name=${{ vars.TERRAFORM_STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=terraform" -backend-config="key=${{ env.applicationName }}-${{ github.event.inputs.env }}"
       
       - name: Terraform plan
         run: terraform plan -out ${{ github.run_number }}.tfplan
