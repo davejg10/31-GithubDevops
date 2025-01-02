@@ -1,0 +1,48 @@
+name: deploy-infra-terraform
+run-name: Deploy infra Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+        env:
+          type: choice
+          description: Environment
+          options: 
+          - dev
+          - test
+          - prod
+
+jobs:
+  terraform_plan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./InfrastructureAsCode
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: az login
+        run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
+      
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        run: terraform init -input=false -backend-config="resource_group_name=${{ vars.TERRAFORM_RG_NAME }}" -backend-config="storage_account_name=${{ vars.TERRAFORM_STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=terraform" 
+      
+      - name: Terraform plan
+        run: terraform plan -out ${{ github.run_number }}.tfplan
+
+      
+  # terraform_apply:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: az login
+  #       run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
+
+  #     - uses: azure/arm-deploy@v2
+  #       with:
+  #         resourceGroupName: ${{ vars.RG_NAME }}
+  #         template: ./InfrastructureAsCode/main.bicep
+  #         parameters: environment=${{ github.event.inputs.env }}
