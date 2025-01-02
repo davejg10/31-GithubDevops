@@ -16,6 +16,7 @@ env:
  ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
  ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
  ARM_TENANT_ID: ${{ secrets.tenant_id }}
+ ARM_SUBSCRIPTION_ID: fd1f9c42-234f-4f5a-b49c-04bcfb79351d
 
 jobs:
   terraform_plan:
