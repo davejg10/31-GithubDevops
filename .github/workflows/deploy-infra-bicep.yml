@@ -1,5 +1,5 @@
-name: deploy-infra
-run-name: Deploy infra
+name: deploy-infra-bicep
+run-name: Deploy infra Bicep
 
 on:
   workflow_dispatch:
