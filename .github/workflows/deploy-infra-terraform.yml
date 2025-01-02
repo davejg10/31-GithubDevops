@@ -37,6 +37,12 @@ jobs:
       
       - name: Terraform plan
         run: terraform plan -out ${{ github.run_number }}.tfplan
+      
+      - name: Publish Terraform Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: ${{ github.run_number }}.tfplan
 
       
   # terraform_apply:
@@ -44,11 +50,8 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v4
 
-  #     - name: az login
-  #       run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
+  #     - name: Terraform init
+  #       run: terraform init -input=false -backend-config="resource_group_name=${{ vars.TERRAFORM_RG_NAME }}" -backend-config="storage_account_name=${{ vars.TERRAFORM_STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=terraform" -backend-config="key=${{ env.applicationName }}-${{ github.event.inputs.env }}"
 
-  #     - uses: azure/arm-deploy@v2
-  #       with:
-  #         resourceGroupName: ${{ vars.RG_NAME }}
-  #         template: ./InfrastructureAsCode/main.bicep
-  #         parameters: environment=${{ github.event.inputs.env }}
+  #     - name: Terraform apply
+  #       run: terraform apply -lock-timeout=300s ${{ github.run_number }}.tfplan
