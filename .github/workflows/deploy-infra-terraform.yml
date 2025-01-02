@@ -13,6 +13,9 @@ on:
           - prod
 env:
  applicationName: devopsgithub
+ ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+ ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+ ARM_TENANT_ID: ${{ secrets.tenant_id }}
 
 jobs:
   terraform_plan:
@@ -23,8 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: az login
-        run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
+      # - name: az login
+      #   run: az login --service-principal --username ${{ secrets.CLIENT_ID }}  --password ${{ secrets.CLIENT_SECRET }}  --tenant ${{ secrets.TENANT_ID }} 
       
       - uses: hashicorp/setup-terraform@v3
 
